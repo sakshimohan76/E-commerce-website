@@ -1,0 +1,49 @@
+{% extends "sell.html" %}
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        {% if category == 'error' %}
+            <div class="alert-danger" role="alert">
+                {{ message }}
+                <div type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert-success" role="alert">
+                {{ message }}
+                <div class="close">&times;</div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endwith %}
+<div>
+    <button class="back" onclick="window.location.href='/homeForC'">Back</button>
+    <button class="buy" onclick="window.location.href='/buy'">Buy Now</button>
+</div>
+<div class="container">
+    {% if allPro|length==0 %}
+    <div class="alert">No product added yet. Add a new product.</div>
+    {% else %}
+        {% for pro in allPro %}
+            <div class="card" style="width: 18rem;">
+                {% if pro.filename %}
+                    <img src="{{ url_for('static_dir', path='pictures/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}">
+                {% else %}
+                    <img src="{{ url_for('static_dir', path='pictures/') }}" class="card-img" alt="{{pro.pName}}">
+                {% endif %}    
+                <br>
+                <div class="card-body">
+                    <h3 class="card-title">{{pro.pName}}</h3>
+                    <p class="card-text">{{pro.desc}}</p>
+                    <p class="card-text">{{pro.category}}</p>
+                    <p class="card-text">&#x20B9;{{pro.price}}</p>
+                    <a href="/remove/{{pro.id}}" class="card-button">Remove</a>
+                </div>
+            </div>
+        {% endfor %}    
+    {% endif %} 
+</div> 
+{% endblock content %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Your products</title>
+</head>
+<body>
+    {% block content %}
+    <div class="nav">
+        <ul class="items">
+        <li class="item"><a href="/sell">Your products</a></li>
+        <li class="item"><a href="/addProduct">Add a new product</a></li>
+        <li class="item"><a href="/PI">Personal Information</a></li>
+        <li class="logout"><a href="/logout">Log out</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        {% if allPro|length==0 %}
+        <div class="alert">No product added yet. Add a new product.</div>
+        {% else %}
+            {% for pro in allPro %}
+                <div class="card" style="width: 18rem;">
+                    {% if pro.filename %}
+                        <img src="{{ url_for('static_dir', path='pictures/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}">
+                    {% else %}
+                        <img src="{{ url_for('static_dir', path='pictures/') }}" class="card-img" alt="{{pro.pName}}">
+                    {% endif %}    
+                    <br>
+                    <div class="card-body">
+                        <p class="card-text">{{loop.index}}</p>
+                        <h3 class="card-title">{{pro.pName}}</h3>
+                        <p class="card-text">{{pro.desc}}</p>
+                        <p class="card-text">{{pro.category}}</p>
+                        <p class="card-text">&#x20B9;{{pro.price}}</p>
+                        <a href="/edit/{{pro.id}}" class="card-button">Edit</a>
+                        <a href="/delete/{{pro.id}}" class="card-button">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}    
+        {% endif %} 
+    </div> 
+    {% endblock content %}
+    <script src="{{ url_for('static', filename='javascript/script.js') }}"></script>
+
+</body>
+</html>

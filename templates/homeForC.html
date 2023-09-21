@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles3.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lightbox.css') }}">
+</head>
+<body>
+    <div class="nav">
+        <ul class="items">
+            <li class="name">ALAN-K</li>
+            <li class="item"><a href="/homeForC">Home</a></li>
+            <li class="cart"><a href="{{ url_for('cart') }}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1jaiOHWfJECIsxUUtvXBSc2ON-chJtzWhZg&usqp=CAU" alt="">Cart</a></li>
+            <li class="logout"><a href="/logout">Log out</a></li>
+            <div class="search">
+                <input type="text" name="search" id="searchInput" placeholder="What are you looking for?"> Search
+            </div>
+        </ul>
+    </div> <br>
+    <div class="container">
+        <div class="col">
+            <p><u>Share your views now!</u></p>
+            <a href="https://twitter.com/" target="_blank">Twitter</a><br>
+            <a href="https://www.google.com/" target="_blank">Google</a><br>
+            <a href="https://www.instagram.com/" target="_blank">Instagram</a><br>
+            <a href="https://www.facebook.com/" target="_blank">Facebook</a><br><br><br><br>
+            <p><u>Contact us!</u></p>
+            <a href="mailto:sakshi@gmail.com">Email</a><br>
+            <a href="https://www.instagram.com/" target="_blank">Instagram</a> at @alan_k<br><br><br><br><br>
+            Write your reviews or suggestions below
+            <textarea id="reviews" name="reviews" rows="4" cols="25"></textarea>
+        </div>
+        <div class="col">
+             <div id="searchResults"></div>
+             <hr>
+            {% if allPro %}
+            <div class="container2">
+                    {% for pro in allPro %}
+                        <div class="card" style="width: 18rem;">
+                            {% if pro.filename %}
+                                <img src="{{ url_for('static_dir', path='pictures/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)">
+                            {% else %}
+                                <img src="{{ url_for('static_dir', path='pictures/') }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)">
+                            {% endif %}    
+                            <br>
+                            <div class="card-body">
+                                <h3 class="card-title">{{pro.pName}}</h3>
+                                <p class="card-text">{{pro.desc}}</p>
+                                <p class="card-text">{{pro.category}}</p>
+                                <p class="card-price">&#x20B9;{{pro.price}}</p>
+                                <form method="POST" action="{{ url_for('addToCart', id=pro.id) }}">
+                                    <button type="submit" class="addToCart">Add to cart</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}    
+            {% endif %}
+            </div>
+        </div>   
+</div>
+<div class="pop-up" id="fullImgBox">
+    <img src="" class="card-img" alt="" id="fullImg">
+    <span onclick="closeFullImg()">&times;</span>
+</div>
+<script src="{{ url_for('static', filename='javascript/lightbox.js') }}"></script>
+</body>
+</html>

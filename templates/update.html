@@ -1,0 +1,42 @@
+{% extends "addProduct.html" %}
+{% block title %}
+<title>Update your products</title>
+{% endblock title %}
+{% block body %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+            <div class="alert-success" role="alert">
+                {{ message }}
+            </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+<br>
+<div class="back">
+    <button onclick="window.location.href='/sell'">Back</button>
+</div>
+<h2>Update your product</h2>
+<hr>
+<br>
+<form action="/edit/{{pro.id}}" method="POST" enctype="multipart/form-data">
+    Update the name of the product:
+    <input type="text" name="product" id="product" value="{{ pro.pName }}">
+    <br><br>
+    Update the description:
+    <input type="text" name="desc" id="desc" value="{{ pro.desc }}">
+    <br><br>
+    Update category:
+    <input type="text" name="category" id="category" value="{{ pro.category }}">
+    <br><br>
+    Update price:
+    <input type="text" name="price" id="price" value="{{ pro.price }}">
+    <br><br>
+    <div class="image">
+        Upload an image:
+        <input type="file" name="file1" id="file1" value="{{ pro.filename }}">
+    </div>
+    <br><br>
+    <button type="submit" value="update">Update product</button>
+</form>
+{% endblock body %}

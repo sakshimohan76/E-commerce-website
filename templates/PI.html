@@ -1,0 +1,54 @@
+{% extends "addProduct.html" %}
+{% block title %}
+<title>Personal Information</title>
+{% endblock title %}
+{% block body %}
+<div class="back">
+    <button onclick="window.location.href='/sell'">Back</button>
+</div>
+{% if allPI %}
+<h2>Your Personal Information Records</h2>
+<br>
+<table>
+    <thead>
+        <tr>
+            <th>Business Name</th>
+            <th>Contact Information</th>
+            <th>Bank Account Number</th>
+            <th>Warehouse Address</th>
+            <th>Acton</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pi in allPI %}
+        <tr>
+            <td>{{ pi.bName }}</td>
+            <td>{{ pi.contact }}</td>
+            <td>{{ pi.bank }}</td>
+            <td>{{ pi.address }}</td>
+            <td><a href="/del/{{pi.bank}}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+<br><br>
+<hr>
+<h2>Add personal infomation</h2>
+<br><br>
+<form action="/PI" method="POST">
+    Warehouse address:
+    <input type="text"  id="address" name="address">
+    <br><br>
+    Contact information:
+    <input type="number" id="contact" name="contact">
+    <br><br>
+    Bussiess name:
+    <input type="text" id="bName" name="bName">
+    <br><br>
+    Bank account number:
+    <input type="number" id="bank" name="bank">
+    <br><br>
+    <button type="submit" class="btn btn-dark">Upload</button>
+</form>
+{% endblock body %}

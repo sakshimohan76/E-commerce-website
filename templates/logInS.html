@@ -1,0 +1,19 @@
+{% extends "signUpS.html" %}
+{% block title %}
+<title>Log in</title>
+{% endblock title %}
+{% block content %}
+<div class="login-box">
+    <h2>Log in</h2>
+    <form method="POST" action="/logInS">
+        Enter email:
+        <input type="email" placeholder="Email" name="emailS" id="emailS">
+        <br><br>
+        Enter password:
+        <input type="password" placeholder="Password" name="passwordS1" id="passwordS1">
+        <br><br> 
+        <button type="submit">Log in</button>
+    </form>
+    <div class="log"> Don't have an account?<a href="/signUpS">Sign up here!</a></div>
+</div>
+{% endblock content %}

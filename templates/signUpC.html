@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>Sign up</title>
+    {% endblock title %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        {% if category == 'error' %}
+            <div class="alert-danger" role="alert">
+                {{ message }}
+                <div class="close">&times;</div>
+            </div>
+        {% else %}
+            <div class="alert-success" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endwith %}
+    <div class="back">
+        <button onclick="window.location.href='/'">Back</button>
+    </div>  
+    {% block content %}
+    <div class="signup-box">
+        <h2 >Sign Up</h2>
+        <form method="POST" action="/signUpC">
+            Enter username:
+            <input type="text" placeholder="Enter username" name="usernameC" id="usernameC">
+            <br><br> 
+            Enter email:
+            <input type="email" placeholder="Email" name="emailC" id="emailC">
+            <br><br>
+            Enter password:
+            <input type="password" placeholder="Password" name="passwordC1" id="passwordC1">
+            <br><br> 
+            Confirm password:
+            <input type="password" placeholder="Confirm password" name="passwordC2" id="passwordC2">
+            <br><br> 
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="log"> Already have an account? <a href="/logInC">Log in here!</a></div>
+    </div>
+    {% endblock content %}
+    <script src="{{ url_for('static', filename='javascript/script.js') }}"></script>
+</body>
+</html>

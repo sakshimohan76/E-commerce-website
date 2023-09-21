@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lightbox.css') }}">
+    <title>Home page</title>
+    <header>
+        <div class="nav">
+            <ul class="items">
+                <li class="name">ALAN-K</li>
+                <li class="item"><a href="/index">Home</a></li>
+                <li class="item"><a href="/logInC">Log in</a></li>
+                <li class="item"><a href="/signUpS">Become a Seller</a></li>
+                <div class="search">
+                    <input type="text" name="search" id="searchInput" placeholder="What are you looking for?"> Search
+                </div>
+            </ul>
+        </div>
+        <div id="searchResults"></div>
+
+    </header>
+        <div class="bg">
+            <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/Flagship_100_Blog_2880x1800_Apparel.jpg" alt="">
+        </div>       
+
+    {% if allPro %}
+    <div class="container">
+            {% for pro in allPro %}
+                <div class="card" style="width: 18rem;">
+                    {% if pro.filename %}
+                        <img src="{{ url_for('static_dir', path='pictures/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)">
+                    {% else %}
+                        <img src="{{ url_for('static_dir', path='pictures/') }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)">
+                    {% endif %}    
+                    <br>
+                    <div class="card-body">
+                        <h3 class="card-title">{{pro.pName}}</h3>
+                        <p class="card-text">{{pro.desc}}</p>
+                        <p class="card-text">{{pro.category}}</p>
+                        <p class="card-price">&#x20B9;{{pro.price}}</p>
+                    </div>
+                </div>
+            {% endfor %}    
+        {% endif %}
+    </div> 
+    <div class="pop-up" id="fullImgBox">
+        <img src="" class="card-img" alt="" id="fullImg">
+        <span onclick="closeFullImg()">&times;</span>
+    </div>
+
+<script src="{{ url_for('static', filename='javascript/lightbox.js') }}"></script>
+</body>
+</html>

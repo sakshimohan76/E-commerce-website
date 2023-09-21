@@ -1,0 +1,36 @@
+{% extends "sell.html" %}
+{% block content %}
+<div>
+    <button class="back" onclick="window.location.href='/cart'">Back</button>
+</div>
+<div class="smallContainer">
+    {% if allPro|length==0 %}
+    <div class="alert">No product added yet. Add a new product.</div>
+    {% else %}
+        {% for pro in allPro %}
+            <div class="smallCard" style="width: 18rem;">
+                {% if pro.filename %}
+                    <img src="{{ url_for('static_dir', path='pictures/' + pro.filename) }}" class="smallCard-img" alt="{{pro.pName}}">
+                {% else %}
+                    <img src="{{ url_for('static_dir', path='pictures/') }}" class="smallCard-img" alt="{{pro.pName}}">
+                {% endif %}    
+                <br>
+                <div class="smallCard-body">
+                    <h3 class="smallCard-title">{{pro.pName}}</h3>
+                    <p class="smallCard-text">{{pro.desc}}</p>
+                    <p class="smallCard-text">{{pro.category}}</p>
+                    <p class="smallCard-text">&#x20B9;{{pro.price}}</p>
+                </div>
+            </div>
+        {% endfor %}    
+    {% endif %} 
+</div> 
+<hr>
+<div class="total">
+    <p><b>Total amount = &#x20B9;{{total}}</b> or continue shopping <a href="/homeForC" class="here">here</a>.</p>
+    <form action="/pay" method="POST">
+    <button class="pay">Pay now</button>
+    </form>
+</div>
+<script src=""></script>
+{% endblock content %}

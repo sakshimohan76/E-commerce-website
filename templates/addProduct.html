@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles2.css') }}">
+    {% block title %}
+    <title>Add a products</title>
+    {% endblock title %}
+</head>
+<body>
+    {% block body %}
+    <div class="back">
+        <button onclick="window.location.href='/sell'">Back</button>
+    </div>
+    <h2>Add a product</h2>
+    <hr>
+    <br><br>
+<form action="/addProduct" method="POST" enctype="multipart/form-data">
+    Add a product:
+    <input type="text" name="product" id="product">
+    <br><br>
+    Add a decription:
+    <input type="text" name="desc" id="desc">
+    <br><br>
+    Category:
+    <input type="text" name="category" id="category">
+    <br><br>
+    Enter price:
+    <input type="text" name="price" id="price">
+    <br><br>
+    <div class="image">
+    Upload an image:
+    <input type="file" name="file1" id="file1">
+    </div>
+    <br><br>
+    <button type="submit" value="upload">Add product</button>
+</form>
+{% endblock body %}
+</body>
+</html>

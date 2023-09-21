@@ -1,0 +1,51 @@
+{% extends "sell.html" %}
+{% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        {% if category == 'error' %}
+            <div class="alert-danger" role="alert">
+                {{ message }}
+                <div type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert-success" role="alert">
+                {{ message }}
+                <div class="close">&times;</div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endwith %}
+<div>
+    <button class="back" onclick="window.location.href='/buy'">Back</button>
+</div>
+<div class="con">
+    <form action="/pay" method="POST">
+        <h2><u>Delivery Information</u></h2>
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        
+        <label for="address">Address:</label>
+        <input id="address" name="address" rows="4" required><br>
+        
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required><br>
+        <br>
+        <h2><u>Payment Information</u></h2>
+        <label for="card">Credit Card Number:</label>
+        <input type="text" id="card" name="card" required><br>
+        
+        <label for="expiry">Expiry Date:</label>
+        <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required><br>
+        
+        <label for="cvv">CVV:</label>
+        <input type="text" id="cvv" name="cvv" required><br>
+        
+        <button type="submit">Confirm Order</button>
+
+    </form>
+</div>
+{% endblock content %}

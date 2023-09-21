@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    <title>Register as a Seller</title>
+    {% endblock title %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+</head>
+
+<body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        {% if category == 'error' %}
+            <div class="alert-danger" role="alert">
+                {{ message }}
+                <div type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert-success" role="alert">
+                {{ message }}
+                <div class="close">&times;</div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endwith %}
+    <div class="back">
+        <button onclick="window.location.href='/'">Back</button>
+    </div>
+    {% block content %}
+    <div class="signup-box">
+        <h1>Register to be a seller!</h1>
+        <br>
+        <form method="POST" action="/signUpS">
+            Enter username:
+            <input type="text" placeholder="Enter username" name="usernameS" id="usernameS" required>
+            <br><br>
+            Enter Email:
+            <input type="email" placeholder="Email" name="emailS" id="emailS" required>
+            <br><br>
+            Enter password:
+            <input type="password" placeholder="Password" name="passwordS1" id="passwordS1" required>
+            <br><br>
+            Confirm password:
+            <input type="password" placeholder="Confirm password" name="passwordS2" id="passwordS2" required>
+            <br><br>
+            <pre>                         <button type="submit" class="btn btn-dark">Register</button></pre>
+        </form>
+        <div class="log"> Already have an account? <a href="/logInS">Log in here!</a></div>
+    </div>
+    {% endblock content %}
+    <script src="{{ url_for('static', filename='javascript/script.js') }}"></script>
+
+</body>
+
+</html>
