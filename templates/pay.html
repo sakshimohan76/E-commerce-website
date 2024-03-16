@@ -15,6 +15,10 @@
                 {{ message }}
                 <div class="close">&times;</div>
             </div>
+            <script>
+                const audio = new Audio('/static/audio/order-confirmed.wav');
+                audio.play();
+            </script>
         {% endif %}
     {% endfor %}
 {% endif %}

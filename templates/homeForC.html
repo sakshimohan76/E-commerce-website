@@ -8,17 +8,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lightbox.css') }}">
 </head>
 <body>
-    <div class="nav">
-        <ul class="items">
-            <li class="name">ALAN-K</li>
-            <li class="item"><a href="/homeForC">Home</a></li>
-            <li class="cart"><a href="{{ url_for('cart') }}"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1jaiOHWfJECIsxUUtvXBSc2ON-chJtzWhZg&usqp=CAU" alt="">Cart</a></li>
-            <li class="logout"><a href="/logout">Log out</a></li>
+    
+    <header>
+        <div class="nav">
+            <ul class="items">
+                <li class="name">ALAN-K</li>
+                <li class="item"><a href="/">Home</a></li>
+                <li class="item"><a href="/logInC">Log in</a></li>
+                <li class="item"><a href="/signUpS">Become a Seller</a></li>
+            </ul>
             <div class="search">
-                <input type="text" name="search" id="searchInput" placeholder="What are you looking for?"> Search
+                <input type="text" name="search" id="searchInput" placeholder="What are you looking for?">
+                <label for="searchInput">Search</label>
+                <div id="searchResults"></div>
             </div>
-        </ul>
-    </div> <br>
+        </div>
+    </header>
     <div class="container">
         <div class="col">
             <p><u>Share your views now!</u></p>
@@ -39,25 +44,31 @@
             <div class="container2">
                     {% for pro in allPro %}
                         <div class="card" style="width: 18rem;">
-                            {% if pro.filename %}
-                                <img src="{{ url_for('static_dir', path='pictures/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)">
-                            {% else %}
-                                <img src="{{ url_for('static_dir', path='pictures/') }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)">
-                            {% endif %}    
-                            <br>
+                            <div class="img-container common-img-container" style="background-image: url({{ url_for('static_dir', path='pictures/thumbs/' + pro.filename) }})">
+                                {% if pro.filename %}
+                                    <img src="{{ url_for('static_dir', path='pictures/products/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)" loading="lazy">
+                                {% else %}
+                                    <img src="{{ url_for('static_dir', path='pictures/products/') }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)" loading="lazy">
+                                {% endif %}                                
+                            </div>
                             <div class="card-body">
-                                <h3 class="card-title">{{pro.pName}}</h3>
-                                <p class="card-text">{{pro.desc}}</p>
-                                <p class="card-text">{{pro.category}}</p>
-                                <p class="card-price">&#x20B9;{{pro.price}}</p>
-                                <form method="POST" action="{{ url_for('addToCart', id=pro.id) }}">
-                                    <button type="submit" class="addToCart">Add to cart</button>
-                                </form>
+                                <div class="card-content">
+                                    <h3 class="card-title">{{pro.pName}}</h3>
+                                    <p class="card-text item-description">{{pro.desc}}</p>
+                                    <p class="card-text category-label">{{pro.category}}</p>
+                                    <div class="price-container">
+                                        <p class="card-text discount-card-price">&#x20B9;{{pro.price + (pro.price * 0.2)|round|int}}</p>
+                                        <p class="card-text card-price">&#x20B9;{{pro.price}}</p>
+                                    </div>
+                                    <form method="POST" action="{{ url_for('addToCart', id=pro.id) }}">
+                                        <button type="submit" class="addToCart card-button">Add to cart</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}    
-            {% endif %}
             </div>
+            {% endif %}
         </div>   
 </div>
 <div class="pop-up" id="fullImgBox">
@@ -65,5 +76,6 @@
     <span onclick="closeFullImg()">&times;</span>
 </div>
 <script src="{{ url_for('static', filename='javascript/lightbox.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/lazyImages.js') }}"></script>
 </body>
 </html>

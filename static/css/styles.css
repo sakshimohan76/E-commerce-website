@@ -1,52 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 body{
-    background-color: rgb(211, 246, 246);
+    font-family: "Poppins", sans-serif;
+    padding: 0;
+    margin: 0;
+    width: 100vw;
+    overflow-x: hidden;
+}
+header{
+    position: fixed;
+    width: 100%;
+    z-index: 999;
 }
 .nav{
-    background-color:black;
-    border-radius: 10px;
+    background-color: transparent;
     margin-top: 0;
     padding-left: 0;
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    padding: 30px 0px;
+}
+.scrolledNav{
+    background-color:rgba(255, 255, 255, 0.451);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 15px 0px;
+}
+.nav ul{
+    margin: 0;
+    display: flex;
 }
 .nav .items{
     padding-left: 0%;
 }
-.nav ul{
-    overflow: auto;
-}
 .nav li{
-    float: left;
     list-style: none;
-    margin: 10px 30px;
+    margin: 0px 30px;
     padding: 10px;
     color: white;
     font-size: 20px;
 }
-.name{
-    background-color: rgb(66, 157, 160);
-    padding: 8px;
-    border-radius: 9px;
+.nav .name{
+    background-color: rgb(116, 158, 52);
+    padding: 4px 20px;
+    border-radius: 500px;
+    align-self: center;
+    flex-grow: 0;
 }
 .nav li a{
-    color: aliceblue;
+    color: black;
     text-decoration: none;
     font-size: 18px;
+    text-transform: uppercase;
+    font-weight: bold;
 }
 .search{
-    float: right;
-    color: white;
-    margin: 10px 30px;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .search input{
-    border-radius: 10px;
+    border: none;
+    border-radius: 500px;
+    color: black;
+    background-color: white;
+    padding: 10px 20px;
     height: 18px;
     width: 200px;
     text-align: center;
-    padding: 8px;
     font-size: 16px;
+    position: relative;
+    z-index: 2;
+    margin: 0;
 }
-.bg img{
-    height: 350px;
+.search label{
+    font-size: 16px;
+    padding: 10px 20px 10px 40px;
+    margin-left: -30px;
+    background-color: rgb(116, 158, 52);
+    border-radius: 0px 500px 500px 0px;
+    color: white;
+    height: 18px;
+    display: flex;
+    align-items: center;
+}
+.bg-img-container{
+    min-width: 100vw;
+    background-size: cover;
+    background-position: center;
+}
+.bg-img-container-first{
+    background-image: url(/static/pictures/thumb-banner1.png);
+}
+.bg-img-container-second{
+    background-image: url(/static/pictures/thumb-banner2.png);
+}
+.bg-img-container img{
+    width: 100vw;
+}
+.bg{
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: visible;
     width: 100%;
+}
+.bg{
+    animation: slideAuto 10s 5s ease-in-out infinite alternate;
+}
+@keyframes slideAuto {
+    0%{
+        transform: translateX(0%);
+    } 
+    40% {
+        transform: translateX(0%);
+    }
+    60% {
+        transform: translateX(-100%);
+    } 
+    100%{
+        transform: translateX(-100%);
+    }
 }
 .signup-box {
     width: 450px;
@@ -155,10 +231,12 @@ button:hover {
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     height: auto;
     width:290px;
-    margin-right: 20px;
-    margin-top: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,.2);
+    overflow: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
   }
-
   .card-img {
     height:200px;
     width:288px;
@@ -167,16 +245,34 @@ button:hover {
     border-top-right-radius: 4px;
   }
 .card-body {
+    display: flex;
     padding: 16px;
     background-color: white;
-    width:255px;
-    height: 220px;
-  }  
+    border-radius: 20px;
+    margin-top: -20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    min-height: 250px;
+}  
+.card-content{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
 .card-title{
     text-align: center;
+    margin: 0px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgb(158, 216, 70);
 }  
 .card-text{
     text-align: center;
+    margin: 0px;
 }
 .col{
     display: flex;
@@ -187,20 +283,57 @@ button:hover {
     float: right;
 }
 .container{
-        display: flex; 
-        flex-wrap: wrap; 
+    padding: 30px 0px;
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center;
+    gap: 30px;
 }
 .card-button{
     background-color:rgb(158, 216, 70);
     color: white;
     text-decoration: none;
     border-radius: 4px;
-    width: 40px;
-    padding: 6px;
-    margin-right: 14px;
+    padding: 6px 10px;
+}
+.category-label{
+    background-color: rgb(158, 216, 70);
+    color: white;
+    width: calc(100% + 32px);
+    margin-left: -16px;
 }
 .card-price{
     text-align: center;
+    font-size: 2rem;
+    font-weight: 900;
+    color: rgb(158, 216, 70);
+}
+.price-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.discount-card-price{
+    color: rgba(255, 70, 70, 0.7);
+    text-decoration: line-through;
+    margin-bottom: -10px;
+    font-weight: 900;
+}
+.card-button:hover{
+    background-color: rgb(116, 158, 52);
+}
+.item-index{
+    border: 2px solid red;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.item-description{
+    color: #464646;
+    font-size: 0.8rem;
 }
 .delete{
     background-color: rgb(150, 190, 206);
@@ -238,4 +371,63 @@ button:hover {
     background-color:white;
     margin: 48px auto;   
     align-items: center;
+}
+
+.container .card .card-img{
+    cursor: pointer;
+    width: 100%;
+    object-fit: cover;
+    transition: .2s linear;
+    object-position: center;
+    transform-origin: center;
+    transition: transform 0.5s;
+}
+.img-container{
+    overflow: hidden;
+    min-height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+.container .card .card-img:hover{
+    transform: scale(1.2);
+}
+.button-container{
+    display: flex;
+    justify-content: space-around;
+}
+.button-container a{
+    display: block;
+    text-align: center;
+    width: 70px;
+    text-align: center;
+}
+.common-img-container{
+    position: relative;
+}
+.common-img-container::before{
+    content: '';
+    position: absolute;
+    inset: 0;
+    animation: pulse 2.5s infinite ease-in-out;
+}
+
+.common-img-container img {
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+}
+
+.common-img-container.load-completed img{
+    opacity: 1;
+}
+.common-img-container.load-completed::before{
+    content: none;
+}
+
+@keyframes pulse {
+    0%, 100%{
+        background-color: rgba(255, 255, 255, 0);
+    }
+    50%{
+        background-color: rgba(255, 255, 255, 0.2);
+    }
 }
