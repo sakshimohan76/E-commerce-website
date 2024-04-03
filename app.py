@@ -5,16 +5,19 @@ import os
 from werkzeug.utils import secure_filename
 from flask_login import login_user, login_required, current_user, logout_user, LoginManager
 from werkzeug.security import generate_password_hash, check_password_hash
+from PIL import Image, ImageFilter
 
 app=Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']="sqlite:///ecommerce.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATION']=False
 app.secret_key='sakshimohanshoppingapp'
 
-uploader="C:\\e-commerce-flask\\static\\pictures"
+currentWorkingDirectory = os.getcwd()
+uploader=os.path.join(currentWorkingDirectory, 'static\\pictures')
 app.config['UPLOAD_FOLDER']=uploader
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif','webp'}
+MAX_SIZE = (32, 32) 
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -69,7 +72,7 @@ class PI(db.Model,UserMixin):
     seller_emailS = db.Column(db.String(200), db.ForeignKey('seller.emailS',ondelete='CASCADE'))
 
 class Cart(db.Model,UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(250), primary_key=True)
     pName = db.Column(db.String(200), nullable=False)
     category= db.Column(db.String(50), nullable=False)
     desc = db.Column(db.String(20000), nullable=False)
@@ -160,11 +163,11 @@ def addToCart(id):
     if request.method == 'POST':
         product = Products.query.get(id)
         if product:
-            cart_item = Cart.query.filter_by(id=id, customer_emailC=current_user.emailC).first()
+            cart_item = Cart.query.filter_by(id=current_user.emailC+":"+str(id), customer_emailC=current_user.emailC).first()
             if cart_item:
                 flash("Item is already in the cart.", category='success' )
             else:
-                cart_item = Cart(id=id, pName=product.pName,
+                cart_item = Cart(id=current_user.emailC+":"+str(id), pName=product.pName,
                 category=product.category,
                 desc=product.desc,
                 price=product.price,
@@ -196,7 +199,16 @@ def checkout():
 @app.route('/pay', methods=['GET', 'POST'])
 def pay():
     if request.method=="POST":
-        flash("Congratulations! Order confirmed. See you soon!", category='success')
+        name = request.form.get('name')
+        address = request.form.get('address')
+        phone = request.form.get('phone')
+        card = request.form.get('card')
+        expiry = request.form.get('expiry')
+        cvv = request.form.get('cvv')
+        if name != None and address != None and phone != None and card != None and expiry != None and cvv != None:
+            Cart.query.filter_by(customer_emailC=current_user.emailC).delete()
+            db.session.commit()
+            flash("Congratulations! Order confirmed. See you soon!", category='success')
         return redirect(url_for('pay'))
     return render_template("pay.html")
 
@@ -290,14 +302,18 @@ def addProduct():
 
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)               
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            filepath = os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], 'products'), filename)
             file.save(filepath)
+            thumbpath = os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], 'thumbs'), filename)
+            thumb = Image.open(file)
+            thumb = thumb.filter(ImageFilter.BLUR)
+            thumb.thumbnail(MAX_SIZE)
+            thumb.save(thumbpath)
 
         new_pro = Products(pName=pName, desc=desc, price=price,category=category,filename=filename) 
         new_pro.seller_emailS= current_user.emailS
         db.session.add(new_pro)
         db.session.commit()
-        allPro=Products.query.filter_by(seller_emailS=current_user.emailS).all() 
         return redirect('sell')
     return render_template("addProduct.html")
 
@@ -316,7 +332,7 @@ def delete(id):
 
 @app.route('/remove/<int:id>')
 def remove(id):
-    pro=Cart.query.filter_by(id=id).first()
+    pro=Cart.query.filter_by(id=current_user.emailC+":"+id).first()
     db.session.delete(pro)
     db.session.commit()
     return redirect('/cart')
@@ -337,9 +353,14 @@ def edit(id):
         category=request.form.get('category')
         file = request.files['file1'] 
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            filename = secure_filename(file.filename)               
+            filepath = os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], 'products'), filename)
             file.save(filepath)
+            thumbpath = os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], 'thumbs'), filename)
+            thumb = Image.open(file)
+            thumb = thumb.filter(ImageFilter.GaussianBlur(radius=75))
+            thumb.thumbnail(MAX_SIZE)
+            thumb.save(thumbpath)
         else:
             pro = Products.query.filter_by(id=id).first()
             filename = pro.filename    

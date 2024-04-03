@@ -22,20 +22,33 @@
         {% else %}
             {% for pro in allPro %}
                 <div class="card" style="width: 18rem;">
-                    {% if pro.filename %}
-                        <img src="{{ url_for('static_dir', path='pictures/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}">
-                    {% else %}
-                        <img src="{{ url_for('static_dir', path='pictures/') }}" class="card-img" alt="{{pro.pName}}">
-                    {% endif %}    
-                    <br>
+                    <div class="img-container common-img-container" style="background-image: url({{ url_for('static_dir', path='pictures/thumbs/' + pro.filename) }})">
+                        {% if pro.filename %}
+                                <img src="{{ url_for('static_dir', path='pictures/products/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}" loading="lazy">
+                        {% else %}
+                            <di
+                            <img src="{{ url_for('static_dir', path='pictures/products/') }}" class="card-img" alt="{{pro.pName}}" loading="lazy">
+                        {% endif %}   
+                    </div>
                     <div class="card-body">
-                        <p class="card-text">{{loop.index}}</p>
-                        <h3 class="card-title">{{pro.pName}}</h3>
-                        <p class="card-text">{{pro.desc}}</p>
-                        <p class="card-text">{{pro.category}}</p>
-                        <p class="card-text">&#x20B9;{{pro.price}}</p>
-                        <a href="/edit/{{pro.id}}" class="card-button">Edit</a>
-                        <a href="/delete/{{pro.id}}" class="card-button">Delete</a>
+                        <div class="card-content">
+                            <p class="card-text">
+                                <span class=" item-index">
+                                    {{loop.index}}
+                                </span>
+                            </p>
+                            <h3 class="card-title">{{pro.pName}}</h3>
+                            <p class="card-text item-description">{{pro.desc}}</p>
+                            <div class="price-container">
+                                <p class="card-text discount-card-price">&#x20B9;{{pro.price + (pro.price * 0.2)|round|int}}</p>
+                                <p class="card-text card-price">&#x20B9;{{pro.price}}</p>
+                            </div>
+                            <p class="card-text category-label">{{pro.category}}</p>
+                            <div class="button-container">
+                                <a href="/edit/{{pro.id}}" class="card-button">Edit</a>
+                                <a href="/delete/{{pro.id}}" class="card-button">Delete</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endfor %}    
@@ -43,6 +56,7 @@
     </div> 
     {% endblock content %}
     <script src="{{ url_for('static', filename='javascript/script.js') }}"></script>
+    <script src="{{ url_for('static', filename='javascript/lazyImages.js') }}"></script>
 
 </body>
 </html>

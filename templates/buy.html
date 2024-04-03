@@ -8,20 +8,26 @@
     <div class="alert">No product added yet. Add a new product.</div>
     {% else %}
         {% for pro in allPro %}
-            <div class="smallCard" style="width: 18rem;">
+        <div class="card" style="width: 18rem;">
+            <div class="img-container common-img-container" style="background-image: url({{ url_for('static_dir', path='pictures/thumbs/' + pro.filename) }})">
                 {% if pro.filename %}
-                    <img src="{{ url_for('static_dir', path='pictures/' + pro.filename) }}" class="smallCard-img" alt="{{pro.pName}}">
+                    <img src="{{ url_for('static_dir', path='pictures/products/' + pro.filename) }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)" loading="lazy">
                 {% else %}
-                    <img src="{{ url_for('static_dir', path='pictures/') }}" class="smallCard-img" alt="{{pro.pName}}">
-                {% endif %}    
-                <br>
-                <div class="smallCard-body">
-                    <h3 class="smallCard-title">{{pro.pName}}</h3>
-                    <p class="smallCard-text">{{pro.desc}}</p>
-                    <p class="smallCard-text">{{pro.category}}</p>
-                    <p class="smallCard-text">&#x20B9;{{pro.price}}</p>
+                    <img src="{{ url_for('static_dir', path='pictures/products/') }}" class="card-img" alt="{{pro.pName}}" onclick="openFullImg(this.src)" loading="lazy">
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <div class="card-content">
+                    <h3 class="card-title">{{pro.pName}}</h3>
+                    <p class="card-text item-description">{{pro.desc}}</p>
+                    <p class="card-text category-label">{{pro.category}}</p>
+                    <div class="price-container">
+                        <p class="card-text discount-card-price">&#x20B9;{{pro.price + (pro.price * 0.2)|round|int}}</p>
+                        <p class="card-text card-price">&#x20B9;{{pro.price}}</p>
+                    </div>
                 </div>
             </div>
+        </div>
         {% endfor %}    
     {% endif %} 
 </div> 
@@ -32,5 +38,5 @@
     <button class="pay">Pay now</button>
     </form>
 </div>
-<script src=""></script>
+<script src="{{ url_for('static', filename='javascript/lazyImages.js') }}"></script>
 {% endblock content %}
